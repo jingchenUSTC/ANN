@@ -1,4 +1,4 @@
-package com.jingchen.ann;
+package com.jingchen.util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import com.jingchen.ann.DataNode;
 
 public class DataUtil
 {
@@ -50,12 +52,12 @@ public class DataUtil
 	 * @return
 	 * @throws Exception
 	 */
-	public List<DataNode> getDataList(String fileName) throws Exception{
+	public List<DataNode> getDataList(String fileName, String sep) throws Exception{
 		List<DataNode> list = new ArrayList<DataNode>();
 		BufferedReader br = new BufferedReader(new FileReader(new File(fileName)));
 		String line = null;
 		while((line = br.readLine()) != null){
-			String splits[] = line.split(",");
+			String splits[] = line.split(sep);
 			DataNode node = new DataNode();
 			int i = 0;
 			for(; i < splits.length-1; i++)
