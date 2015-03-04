@@ -12,12 +12,12 @@ public class NetworkNode
 	{
 		this.type = type;
 	}
-	
-	//节点前向输入输出值
+
+	// 节点前向输入输出值
 	private float mForwardInputValue;
 	private float mForwardOutputValue;
 
-	//节点反向输入输出值
+	// 节点反向输入输出值
 	private float mBackwardInputValue;
 	private float mBackwardOutputValue;
 
@@ -32,6 +32,7 @@ public class NetworkNode
 
 	/**
 	 * sigmoid函数，这里用tanh-sigmoid，经测试其效果比log-sigmoid好！
+	 * 
 	 * @param in
 	 * @return
 	 */
@@ -43,15 +44,59 @@ public class NetworkNode
 			return in;
 		case TYPE_HIDDEN:
 		case TYPE_OUTPUT:
-			// return (float) (1 / (1 + Math.exp(-in)));
-			return (float) ((Math.exp(in) - Math.exp(-in)) / (Math.exp(in) + Math
-					.exp(-in)));
+			return tanhS(in);
 		}
 		return 0;
 	}
 
 	/**
+	 * log-sigmoid函数
+	 * 
+	 * @param in
+	 * @return
+	 */
+	private float logS(float in)
+	{
+		return (float) (1 / (1 + Math.exp(-in)));
+	}
+
+	/**
+	 * log-sigmoid函数的导数
+	 * 
+	 * @param in
+	 * @return
+	 */
+	private float logSDerivative(float in)
+	{
+		return mForwardOutputValue * (1 - mForwardOutputValue) * in;
+	}
+
+	/**
+	 * tanh-sigmoid函数
+	 * 
+	 * @param in
+	 * @return
+	 */
+	private float tanhS(float in)
+	{
+		return (float) ((Math.exp(in) - Math.exp(-in)) / (Math.exp(in) + Math
+				.exp(-in)));
+	}
+
+	/**
+	 * tanh-sigmoid函数的导数
+	 * 
+	 * @param in
+	 * @return
+	 */
+	private float tanhSDerivative(float in)
+	{
+		return (float) ((1 - Math.pow(mForwardOutputValue, 2)) * in);
+	}
+
+	/**
 	 * 误差反向传播时，激活函数的导数
+	 * 
 	 * @param in
 	 * @return
 	 */
@@ -63,8 +108,7 @@ public class NetworkNode
 			return in;
 		case TYPE_HIDDEN:
 		case TYPE_OUTPUT:
-			// return mForwardOutputValue * (1 - mForwardOutputValue) * in;
-			return (float) ((1 - Math.pow(mForwardOutputValue, 2)) * in);
+			return tanhSDerivative(in);
 		}
 		return 0;
 	}
@@ -79,7 +123,7 @@ public class NetworkNode
 		this.mForwardInputValue = mInputValue;
 		setForwardOutputValue(mInputValue);
 	}
-	
+
 	public float getForwardOutputValue()
 	{
 		return mForwardOutputValue;
