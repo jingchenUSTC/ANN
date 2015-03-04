@@ -15,9 +15,9 @@ public class AnnClassifier
 	private int mHiddenCount;
 	private int mOutputCount;
 
-	private List<Node> mInputNodes;
-	private List<Node> mHiddenNodes;
-	private List<Node> mOutputNodes;
+	private List<NetworkNode> mInputNodes;
+	private List<NetworkNode> mHiddenNodes;
+	private List<NetworkNode> mOutputNodes;
 
 	private float[][] mInputHiddenWeight;
 	private float[][] mHiddenOutputWeight;
@@ -35,9 +35,9 @@ public class AnnClassifier
 		mInputCount = inputCount;
 		mHiddenCount = hiddenCount;
 		mOutputCount = outputCount;
-		mInputNodes = new ArrayList<Node>();
-		mHiddenNodes = new ArrayList<Node>();
-		mOutputNodes = new ArrayList<Node>();
+		mInputNodes = new ArrayList<NetworkNode>();
+		mHiddenNodes = new ArrayList<NetworkNode>();
+		mOutputNodes = new ArrayList<NetworkNode>();
 		mInputHiddenWeight = new float[inputCount][hiddenCount];
 		mHiddenOutputWeight = new float[mHiddenCount][mOutputCount];
 	}
@@ -47,11 +47,13 @@ public class AnnClassifier
 	 */
 	private void updateWeights(float eta)
 	{
+		//更新输入层到隐层的权重矩阵
 		for (int i = 0; i < mInputCount; i++)
 			for (int j = 0; j < mHiddenCount; j++)
 				mInputHiddenWeight[i][j] -= eta
 						* mInputNodes.get(i).getForwardOutputValue()
 						* mHiddenNodes.get(j).getBackwardOutputValue();
+		//更新隐层到输出层的权重矩阵
 		for (int i = 0; i < mHiddenCount; i++)
 			for (int j = 0; j < mOutputCount; j++)
 				mHiddenOutputWeight[i][j] -= eta
@@ -62,7 +64,7 @@ public class AnnClassifier
 	/**
 	 * 前向传播
 	 */
-	private void forwrad(List<Float> list)
+	private void forward(List<Float> list)
 	{
 		// 输入层
 		for (int k = 0; k < list.size(); k++)
@@ -118,7 +120,7 @@ public class AnnClassifier
 		{
 			for (int j = 0; j < trainNodes.size(); j++)
 			{
-				forwrad(trainNodes.get(j).getAttribList());
+				forward(trainNodes.get(j).getAttribList());
 				backward(trainNodes.get(j).getType());
 				updateWeights(eta);
 			}
@@ -131,12 +133,15 @@ public class AnnClassifier
 	 */
 	private void reset()
 	{
+		mInputNodes.clear();
+		mHiddenNodes.clear();
+		mOutputNodes.clear();
 		for (int i = 0; i < mInputCount; i++)
-			mInputNodes.add(new Node(Node.TYPE_INPUT));
+			mInputNodes.add(new NetworkNode(NetworkNode.TYPE_INPUT));
 		for (int i = 0; i < mHiddenCount; i++)
-			mHiddenNodes.add(new Node(Node.TYPE_HIDDEN));
+			mHiddenNodes.add(new NetworkNode(NetworkNode.TYPE_HIDDEN));
 		for (int i = 0; i < mOutputCount; i++)
-			mOutputNodes.add(new Node(Node.TYPE_OUTPUT));
+			mOutputNodes.add(new NetworkNode(NetworkNode.TYPE_OUTPUT));
 		for (int i = 0; i < mInputCount; i++)
 			for (int j = 0; j < mHiddenCount; j++)
 				mInputHiddenWeight[i][j] = (float) (Math.random() * 0.1);
@@ -147,7 +152,7 @@ public class AnnClassifier
 
 	public int test(DataNode dn)
 	{
-		forwrad(dn.getAttribList());
+		forward(dn.getAttribList());
 		float result = 2;
 		int type = 0;
 		for (int i = 0; i < mOutputCount; i++)

@@ -1,6 +1,6 @@
 package com.jingchen.ann;
 
-public class Node
+public class NetworkNode
 {
 	public static final int TYPE_INPUT = 0;
 	public static final int TYPE_HIDDEN = 1;
@@ -12,18 +12,20 @@ public class Node
 	{
 		this.type = type;
 	}
-
+	
+	//节点前向输入输出值
 	private float mForwardInputValue;
 	private float mForwardOutputValue;
 
+	//节点反向输入输出值
 	private float mBackwardInputValue;
 	private float mBackwardOutputValue;
 
-	public Node()
+	public NetworkNode()
 	{
 	}
 
-	public Node(int type)
+	public NetworkNode(int type)
 	{
 		this.type = type;
 	}
@@ -48,6 +50,11 @@ public class Node
 		return 0;
 	}
 
+	/**
+	 * 误差反向传播时，激活函数的导数
+	 * @param in
+	 * @return
+	 */
 	private float backwardPropagate(float in)
 	{
 		switch (type)
@@ -72,6 +79,16 @@ public class Node
 		this.mForwardInputValue = mInputValue;
 		setForwardOutputValue(mInputValue);
 	}
+	
+	public float getForwardOutputValue()
+	{
+		return mForwardOutputValue;
+	}
+
+	private void setForwardOutputValue(float mInputValue)
+	{
+		this.mForwardOutputValue = forwardSigmoid(mInputValue);
+	}
 
 	public float getBackwardInputValue()
 	{
@@ -92,16 +109,6 @@ public class Node
 	private void setBackwardOutputValue(float input)
 	{
 		this.mBackwardOutputValue = backwardPropagate(input);
-	}
-
-	public float getForwardOutputValue()
-	{
-		return mForwardOutputValue;
-	}
-
-	private void setForwardOutputValue(float mInputValue)
-	{
-		this.mForwardOutputValue = forwardSigmoid(mInputValue);
 	}
 
 }
