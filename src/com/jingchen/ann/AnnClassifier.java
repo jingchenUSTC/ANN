@@ -126,6 +126,9 @@ public class AnnClassifier
 		}
 	}
 
+	/**
+	 * 初始化
+	 */
 	private void reset()
 	{
 		for (int i = 0; i < mInputCount; i++)
