@@ -82,7 +82,7 @@ public class DataUtil
 				try
 				{
 					node.addAttrib(Float.valueOf(splits[i]));
-				} catch (Exception e)
+				} catch (NumberFormatException e)
 				{
 					// 非数字，则为类别名称，将类别映射为数字
 					if (!mTypes.containsKey(splits[i]))
