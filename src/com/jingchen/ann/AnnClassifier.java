@@ -97,6 +97,7 @@ public class AnnClassifier
 		// 输出层
 		for (int j = 0; j < mOutputCount; j++)
 		{
+			//输出层计算误差把误差反向传播，这里-1代表不属于，1代表属于
 			float result = -1;
 			if (j == type)
 				result = 1;
@@ -155,6 +156,7 @@ public class AnnClassifier
 		forward(dn.getAttribList());
 		float result = 2;
 		int type = 0;
+		//取最接近1的
 		for (int i = 0; i < mOutputCount; i++)
 			if ((1 - mOutputNodes.get(i).getForwardOutputValue()) < result)
 			{
