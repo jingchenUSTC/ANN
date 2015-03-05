@@ -31,7 +31,7 @@ public class NetworkNode
 	}
 
 	/**
-	 * sigmoid函数，这里用tanh-sigmoid，经测试其效果比log-sigmoid好！
+	 * sigmoid函数，这里用tan-sigmoid，经测试其效果比log-sigmoid好！
 	 * 
 	 * @param in
 	 * @return
@@ -72,7 +72,7 @@ public class NetworkNode
 	}
 
 	/**
-	 * tanh-sigmoid函数
+	 * tan-sigmoid函数
 	 * 
 	 * @param in
 	 * @return
@@ -84,7 +84,7 @@ public class NetworkNode
 	}
 
 	/**
-	 * tanh-sigmoid函数的导数
+	 * tan-sigmoid函数的导数
 	 * 
 	 * @param in
 	 * @return
