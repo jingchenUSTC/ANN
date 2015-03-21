@@ -43,17 +43,17 @@ public class AnnClassifier
 	}
 
 	/**
-	 * 更新权重
+	 * 更新权重，每个权重的梯度都等于与其相连的前一层节点的输出乘以与其相连的后一层的反向传播的输出
 	 */
 	private void updateWeights(float eta)
 	{
-		//更新输入层到隐层的权重矩阵
+		// 更新输入层到隐层的权重矩阵
 		for (int i = 0; i < mInputCount; i++)
 			for (int j = 0; j < mHiddenCount; j++)
 				mInputHiddenWeight[i][j] -= eta
 						* mInputNodes.get(i).getForwardOutputValue()
 						* mHiddenNodes.get(j).getBackwardOutputValue();
-		//更新隐层到输出层的权重矩阵
+		// 更新隐层到输出层的权重矩阵
 		for (int i = 0; i < mHiddenCount; i++)
 			for (int j = 0; j < mOutputCount; j++)
 				mHiddenOutputWeight[i][j] -= eta
@@ -97,7 +97,7 @@ public class AnnClassifier
 		// 输出层
 		for (int j = 0; j < mOutputCount; j++)
 		{
-			//输出层计算误差把误差反向传播，这里-1代表不属于，1代表属于
+			// 输出层计算误差把误差反向传播，这里-1代表不属于，1代表属于
 			float result = -1;
 			if (j == type)
 				result = 1;
@@ -156,7 +156,7 @@ public class AnnClassifier
 		forward(dn.getAttribList());
 		float result = 2;
 		int type = 0;
-		//取最接近1的
+		// 取最接近1的
 		for (int i = 0; i < mOutputCount; i++)
 			if ((1 - mOutputNodes.get(i).getForwardOutputValue()) < result)
 			{
