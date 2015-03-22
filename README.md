@@ -4,5 +4,5 @@ BP神经网络分类器，使用iris数据集，data文件夹里的iris.txt是�
 ![BPNN](https://github.com/jingchenUSTC/ANN/blob/master/pictures/BPNN.png)
 ##抽象出来的BP网络
 ![BPNN](https://github.com/jingchenUSTC/ANN/blob/master/pictures/BP.png)
-节点内部示意图：\\
+节点内部示意图：\
 ![Node](https://github.com/jingchenUSTC/ANN/blob/master/pictures/Node.png)
