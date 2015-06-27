@@ -111,6 +111,7 @@ public class AnnClassifier
 			for (int k = 0; k < mOutputCount; k++)
 				temp += mHiddenOutputWeight[j][k]
 						* mOutputNodes.get(k).getBackwardOutputValue();
+			mHiddenNodes.get(j).setBackwardInputValue(temp);
 		}
 	}
 
@@ -125,6 +126,7 @@ public class AnnClassifier
 				backward(trainNodes.get(j).getType());
 				updateWeights(eta);
 			}
+			System.out.println("n = " + i);
 
 		}
 	}

@@ -29,8 +29,8 @@ public class MainClass
 		String testfile = helper.getArg("-test", "");
 		String separator = helper.getArg("-sep", ",");
 		String outputfile = helper.getArg("-out", "");
-		float eta = helper.getArg("-eta", 0.5f);
-		int nIter = helper.getArg("-iter", 5000);
+		float eta = helper.getArg("-eta", 0.02f);
+		int nIter = helper.getArg("-iter", 1000);
 		DataUtil util = DataUtil.getInstance();
 		List<DataNode> trainList = util.getDataList(trainfile, separator);
 		List<DataNode> testList = util.getDataList(testfile, separator);
@@ -38,7 +38,8 @@ public class MainClass
 				outputfile)));
 		int typeCount = util.getTypeCount();
 		AnnClassifier annClassifier = new AnnClassifier(trainList.get(0)
-				.getAttribList().size(), 10, typeCount);
+				.getAttribList().size(), trainList.get(0).getAttribList()
+				.size() + 8, typeCount);
 		annClassifier.setTrainNodes(trainList);
 		annClassifier.train(eta, nIter);
 		for (int i = 0; i < testList.size(); i++)
